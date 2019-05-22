@@ -1,6 +1,6 @@
 const url = "https://www.reddit.com/r/funny.json";
 
-const btnUps = document.querySelector(".button-ups");
+const btnUps = document.querySelector('button');
 const btnComm = document.querySelector(".button-comments");
 const btnScore = document.querySelector(".button-score");
 const btnDate = document.querySelector('.button-date');
@@ -61,11 +61,11 @@ function getData() {
       myData = resp.data.children.map(child => {
         return {
           title: child.data.title,
-          upvotes: parseInt(child.data.ups),
-          downvotes: parseInt(child.data.downs),
-          score: parseInt(child.data.score),
-          num_comments: parseInt(child.data.num_comments),
-          created: new Date(child.data.created * 1000)
+          upvotes: child.data.ups,
+          downvotes: child.data.downs,
+          score: child.data.score,
+          num_comments: child.data.num_comments,
+          created: new Date(child.data.created * 1000).toLocaleString()
         };
       });
       console.log(myData); // Struktura danych z zadania
