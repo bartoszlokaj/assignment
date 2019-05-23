@@ -3,7 +3,9 @@ const url = "https://www.reddit.com/r/funny.json";
 const btnUps = document.querySelector('button');
 const btnComm = document.querySelector(".button-comments");
 const btnScore = document.querySelector(".button-score");
-const btnDate = document.querySelector('.button-date');
+const btnDate = document.querySelector(".button-date");
+const btnRatio = document.querySelector(".button-ratio");
+const btnNewest = document.querySelector('.button-newest');
 
 let myData = "";
 let sortDirection = 1;
@@ -18,6 +20,7 @@ render = collection => {
   document.querySelector(".posts").innerHTML = html;
 };
 
+
 formatThis = responseObject => {
   return `<ul class="post">
              <h4>${responseObject.title}</h4>
@@ -25,7 +28,7 @@ formatThis = responseObject => {
              <li>Downvotes: ${responseObject.downvotes}</li>
              <li>Score: ${responseObject.score}</li>
              <li>Comments: ${responseObject.num_comments}</li>
-             <li>Created: ${responseObject.created}</li>
+             <li>Created: ${new Date(responseObject.created).toLocaleString()}</li>
            </ul>`;
 };
 
@@ -39,7 +42,7 @@ sortByArgument = sortField => {
     nextElement = next[sortField] !== undefined ? next[sortField] : null;
 
     if (prevElement === null || nextElement === null) {
-      throw `Undefined field ${sortField}, cannot sort fuck of`;
+      throw `Undefined field ${sortField}, cannot sort this shit`;
     }
 
     if (sortDirection == 1) {
@@ -51,6 +54,12 @@ sortByArgument = sortField => {
 
   sortDirection = sortDirection == 1 ? 0 : 1;
   return sorted;
+};
+
+const dateCheck = (today, date) => {
+  // return today - date <= 86400000; // liczba wyraza 24h w milisekundach
+  if ((today - date) <= 86400000) console.log(true)
+  else console.log(false);
 };
 
 
@@ -65,11 +74,11 @@ function getData() {
           downvotes: child.data.downs,
           score: child.data.score,
           num_comments: child.data.num_comments,
-          created: new Date(child.data.created * 1000).toLocaleString()
+          created: child.data.created*1000 // zamiana na milisekundy
         };
       });
       console.log(myData); // Struktura danych z zadania
-
+      
       btnUps.addEventListener("click", event => {
         render(sortByArgument());
       });
@@ -84,6 +93,12 @@ function getData() {
 
       btnDate.addEventListener("click", event => {
         render(sortByArgument("created"));
+      });
+
+      btnNewest.addEventListener("click", event => {
+        myData.forEach(el => {
+          dateCheck(Date.now(), el.created)
+        });
       });
 
       render(myData);
