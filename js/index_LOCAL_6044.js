@@ -1,11 +1,11 @@
 const url = "https://www.reddit.com/r/funny.json";
 
-const btnUps = document.querySelector("button");
+const btnUps = document.querySelector('button');
 const btnComm = document.querySelector(".button-comments");
 const btnScore = document.querySelector(".button-score");
 const btnDate = document.querySelector(".button-date");
 const btnRatio = document.querySelector(".button-ratio");
-const btnNewest = document.querySelector(".button-newest");
+const btnNewest = document.querySelector('.button-newest');
 
 let myData = "";
 let sortDirection = 1;
@@ -17,8 +17,9 @@ render = collection => {
     return formatThis(entry);
   });
 
-  document.querySelector(".posts").innerHTML = html.join('');
+  document.querySelector(".posts").innerHTML = html;
 };
+
 
 formatThis = responseObject => {
   return `<ul class="post">
@@ -27,14 +28,11 @@ formatThis = responseObject => {
              <li>Downvotes: ${responseObject.downvotes}</li>
              <li>Score: ${responseObject.score}</li>
              <li>Comments: ${responseObject.num_comments}</li>
-             <li>Created: ${new Date(
-               responseObject.created
-             ).toLocaleString()}</li>
+             <li>Created: ${new Date(responseObject.created).toLocaleString()}</li>
            </ul>`;
 };
 
 sortByArgument = sortField => {
-  console.log(sortField);
   if (sortField === undefined) {
     sortField = "upvotes";
   }
@@ -58,14 +56,12 @@ sortByArgument = sortField => {
   return sorted;
 };
 
-dateCheck = today => {
-  myData = myData.filter(value => {
-    return today - value.created <= 86400000;
-    // 86400000milisek = 24h
-  });
-
-  render(sortByArgument("created"));
+const dateCheck = (today, date) => {
+  // return today - date <= 86400000; // liczba wyraza 24h w milisekundach
+  if ((today - date) <= 86400000) console.log(true)
+  else console.log(false);
 };
+
 
 function getData() {
   fetch(url)
@@ -78,11 +74,11 @@ function getData() {
           downvotes: child.data.downs,
           score: child.data.score,
           num_comments: child.data.num_comments,
-          created: child.data.created * 1000 // zamiana na milisekundy
+          created: child.data.created*1000 // zamiana na milisekundy
         };
       });
       console.log(myData); // Struktura danych z zadania
-
+      
       btnUps.addEventListener("click", event => {
         render(sortByArgument());
       });
@@ -100,7 +96,10 @@ function getData() {
       });
 
       btnNewest.addEventListener("click", event => {
-        dateCheck(Date.now());
+        myData.forEach(el => {
+          dateCheck(Date.now(), el.created)
+          if(dateCheck === true) console.log('dupa')
+        });
       });
 
       render(myData);

@@ -100,7 +100,14 @@ function getData() {
       });
 
       btnNewest.addEventListener("click", event => {
+<<<<<<< HEAD
+        myData.forEach(el => {
+          dateCheck(Date.now(), el.created)
+          if(dateCheck === true) console.log('dupa')
+        });
+=======
         dateCheck(Date.now());
+>>>>>>> refs/remotes/origin/master
       });
 
       render(myData);
