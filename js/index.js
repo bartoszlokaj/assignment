@@ -98,6 +98,7 @@ function getData() {
       btnNewest.addEventListener("click", event => {
         myData.forEach(el => {
           dateCheck(Date.now(), el.created)
+          if(dateCheck === true) console.log('dupa')
         });
       });
 
