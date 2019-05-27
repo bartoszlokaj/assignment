@@ -58,7 +58,7 @@ sortByArgument = sortField => {
   return sorted;
 };
 
-function getRatio() {
+getRatio = () => {
   let ratioData = myData.map(el => {
     
     if (el.num_comments > 0) {
@@ -72,7 +72,7 @@ function getRatio() {
     if (el.num_comments == 0) {
       return {
         title: el.title,
-        ratio: "give me more",
+        ratio: "Give me more",
         created: el.created
       };
     }
@@ -81,12 +81,13 @@ function getRatio() {
   sortRatio(ratioData);
 }
 
-function sortRatio(unsorted) {
+sortRatio = (unsorted) => {
   let sorted = unsorted.sort((prev, next) => {
     if (prev.ratio == next.ratio) return next.created - prev.created;
     else return prev.ratio - next.ratio;
   })
-  console.log(sorted[0].title);
+
+  console.log(sorted)
   alert("Post with highest comments to upvotes ratio: " + sorted[0].title);
 }
 
