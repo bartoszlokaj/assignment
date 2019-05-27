@@ -58,6 +58,38 @@ sortByArgument = sortField => {
   return sorted;
 };
 
+function getRatio() {
+  let ratioData = myData.map(el => {
+    
+    if (el.num_comments > 0) {
+      return {
+        title: el.title,
+        ratio: el.upvotes / el.num_comments,
+        created: el.created
+      };
+    }
+
+    if (el.num_comments == 0) {
+      return {
+        title: el.title,
+        ratio: "give me more",
+        created: el.created
+      };
+    }
+  });
+
+  sortRatio(ratioData);
+}
+
+function sortRatio(unsorted) {
+  let sorted = unsorted.sort((prev, next) => {
+    if (prev.ratio == next.ratio) return next.created - prev.created;
+    else return prev.ratio - next.ratio;
+  })
+  console.log(sorted[0].title);
+  alert("Post with highest comments to upvotes ratio: " + sorted[0].title);
+}
+
 dateCheck = today => {
   myData = myData.filter(value => {
     return today - value.created <= 86400000;
@@ -97,6 +129,10 @@ function getData() {
 
       btnDate.addEventListener("click", event => {
         render(sortByArgument("created"));
+      });
+
+      btnRatio.addEventListener('click', event => {
+        getRatio();
       });
 
       btnNewest.addEventListener("click", event => {
