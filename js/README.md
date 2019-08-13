@@ -11,4 +11,4 @@ Project is created with:
 * no installation 
 
 ## Setup
-To run this project simply open html file.
+To run this project simply open html file in the browser.
